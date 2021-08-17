@@ -92,14 +92,14 @@ operationsSection.addEventListener('click', function (e) {
 
 ///////////////////////////////////////
 // Initializing nav hover effect
-const header = document.querySelector(`.nav`);
+const nav = document.querySelector(`.nav`);
 const navbar = document.querySelector(`.nav__links`);
 const navbarElem = document.querySelector(`.nav__item`);
 const navbarElements = document.querySelectorAll(`.nav__item`);
-const otherElements = [header.children[0], ...header.children[1].children];
+const otherElements = [nav.children[0], ...nav.children[1].children];
 
 // Version after watching tutorial
-header.addEventListener('mouseover', function (e) {
+nav.addEventListener('mouseover', function (e) {
   const target = e.target;
   if (target.classList.contains('nav__link')) {
     const siblings = target.closest('.nav').querySelectorAll('.nav__link');
@@ -111,7 +111,7 @@ header.addEventListener('mouseover', function (e) {
   }
 });
 
-header.addEventListener('mouseout', function (e) {
+nav.addEventListener('mouseout', function (e) {
   const target = e.target;
   const siblings = target.closest('.nav').querySelectorAll('.nav__link');
   const logo = document.querySelector(`.nav__logo`);
@@ -131,3 +131,59 @@ header.addEventListener('mouseout', function (e) {
 //     otherElements.forEach(t => (t.style.opacity = `1`));
 //   })
 // );
+
+///////////////////////////////////////
+// Initializing sticky header
+
+const section1 = document.querySelector(`#section--1`);
+const header = document.querySelector(`.header`);
+const navHeight = nav.getBoundingClientRect().height;
+
+// Version after watching tutorial
+const optionsNavSticky = {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
+};
+const callbackNavSticky = function (entries, observer) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) {
+    nav.classList.add('sticky');
+  } else {
+    nav.classList.remove('sticky');
+  }
+};
+const observerNavSticky = new IntersectionObserver(
+  callbackNavSticky,
+  optionsNavSticky
+);
+observerNavSticky.observe(header);
+
+// Version before watching tutorial
+// const options = {
+//   root: null,
+//   threshold: 0.1,
+// };
+// const callback = function (entries, observer) {
+//   entries.forEach(t => {
+//     if (!t.isIntersecting && t.boundingClientRect.y > 0) {
+//       nav.classList.remove('sticky');
+//     }
+//     if (t.isIntersecting) {
+//       nav.classList.add('sticky');
+//     }
+//   });
+// };
+// const observer = new IntersectionObserver(callback, options);
+// observer.observe(section1);
+
+const optionsSectionFade = {
+  root: null,
+  threshold: 0,
+};
+const callbackSectionFade = function (entries, observer) {};
+const observerSectionFade = new IntersectionObserver(
+  callbackSectionFade,
+  optionsSectionFade
+);
+observerSectionFade.observe(header);
